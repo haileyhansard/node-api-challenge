@@ -32,4 +32,47 @@ router.get('/:id', (req, res) => {
         });
 });
 
+//GET getProjectAction
+// come back to this one ///////////////////
+
+// POST REQUEST
+// add a new project
+router.post('/',  (req, res) => {
+    projectModel.insert(req.body)
+        .then(project => {
+            console.log(project)
+            res.status(201).json(project)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: 'Project could not be added to list' })
+        });
+});
+
+// PUT REQUEST
+// Update a project
+router.put('/:id', (req, res) => {
+    const id = req.params.id;
+    const changes = req.body;
+    projectModel.update(id, changes)
+        .then(() => {
+            res.status(200).json({...changes, id })
+        })
+        .catch(() => {
+            res.status(500).json({ message: "Project could not be updated" })
+        })
+});
+
+// DELETE REQUEST
+// Delete a project
+router.delete('/:id', (req, res) => {
+    projectModel.remove(req.params.id)
+        .then((countDeleted) => {
+            res.status(200).json({ message: `${countDeleted} project  was deleted successfully` })
+        })
+        .catch(() => {
+            res.status(500).json({ message: 'Project was not able to be deleted' });
+        });
+});
+
 module.exports = router;
