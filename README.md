@@ -40,13 +40,26 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 -   [ ] Mention two parts of Express that you learned about this week.
 
+1. Express Routing: routing is a way to select which request handler function is executed based on the url and which HTTP method was used. Routing provides a way for breaking up an application into smaller parts. 
+
+2. Express Convenience Helpers: these are extension methods added to the request and response objects to provide functionality out of the box. Examples are res.send(), res.status(), and res.redirect().
+
 -   [ ] Describe Middleware?
+
+Middleware allows you to add extra functionality to Express without having to modify the original Express. Middleware is various functions that extend the software, extend features provided by Express so that you can have extra functionality.
 
 -   [ ] Describe a Resource?
 
+Resources in regards to Express and creating a RESTful API correspond to the different groups (similar to what we use for the routes) that we can target with our HTTP methods. We might want to “get” a list of “users,” and the resource would be the users.
+We can have a single URL per resource and execute different code based on the HTTP method used (for example, some different resources could be /users, /collections, and /projects).
+
 -   [ ] What can the API return to help clients know if a request was successful?
 
+The API can return status codes like 200 (ok, successful) or 201 (created successfully) to let the client know if a request was successful.
+
 -   [ ] How can we partition our application into sub-applications?
+
+We can break up our application into sub-applications by using Express Routers. They can have their own routing and middleware. You write separate components for the different routes, and they can later be composed together. This helps organize the application.
 
 ## Minimum Viable Product
 
