@@ -1,5 +1,8 @@
 const express = require('express');
 const actionModel = require('../data/helpers/actionModel');
+//const validateAction = require('../middlewares/validateAction');
+//const validateActionId = require('../middlewares/validateActionId');
+const {validateAction, validateActionId} = require('../middlewares')
 
 const router = express.Router();
 
@@ -7,22 +10,21 @@ const router = express.Router();
 // GET REQUESTS
 
 // get all actions
-//get request to localhost:4444/api/projects/1/actions
+//get request to localhost:4444/api/actions
 router.get('/', (req, res) => {
     actionModel.get()
         .then(actions => {
             console.log(actions)
-            res.send(200).json(actions)
+            res.status(200).json(actions)
         })
-        .catch(err => {
-            console.log(err)
+        .catch(() => {
             res.status(500).json({ message: "Actions could not be retreived." })
         })
 });
 
 //get action by id
 //get request to localhost:444/api/actions/1
-router.get('/:id', (req, res) => {
+router.get('/:id', validateActionId, (req, res) => {
     actionModel.get(req.params.id)
         .then(action => {
             res.status(200).json(action)
@@ -37,7 +39,7 @@ router.get('/:id', (req, res) => {
 // requires project_id (of an existing project), description, and notes
 // post request to localhost:4444/api/actions/1/actions
 
-router.post('/:id/actions', (req, res) => {
+router.post('/:id/actions', validateAction, (req, res) => {
     const actionReqBody = {...req.body, project_id: req.params.id}
     actionModel.insert(actionReqBody)
         .then((newAction) => {
