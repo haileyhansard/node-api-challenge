@@ -2,7 +2,7 @@ const express = require('express');
 const actionModel = require('../data/helpers/actionModel');
 //const validateAction = require('../middlewares/validateAction');
 //const validateActionId = require('../middlewares/validateActionId');
-const {validateAction, validateActionId} = require('../middlewares')
+const {validateAction, validateActionId, validateActionIdMatches} = require('../middlewares')
 
 const router = express.Router();
 
@@ -39,7 +39,7 @@ router.get('/:id', validateActionId, (req, res) => {
 // requires project_id (of an existing project), description, and notes
 // post request to localhost:4444/api/actions/1/actions
 
-router.post('/:id/actions', validateAction, (req, res) => {
+router.post('/:id/actions', [validateAction, validateActionId, validateActionIdMatches], (req, res) => {
     const actionReqBody = {...req.body, project_id: req.params.id}
     actionModel.insert(actionReqBody)
         .then((newAction) => {
